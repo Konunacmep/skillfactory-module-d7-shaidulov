@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Добавить несколько авторов и книг
+{% endblock %}
+{% block content %}
+    <p>Можно оставить любое количество форм пустыми</p>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ author_formset.management_form }}
+        {% for form in author_formset %}
+            <p>Автор</p>
+            <br>
+            {{ form.as_ul }}
+            <br>
+        {% endfor %}
+        {{ book_formset.management_form }}
+        {% for form in book_formset %}
+            <p>Книга</p>
+            <br>
+            {{ form.as_ul }}
+            <br>
+        {% endfor %}
+            <input type="submit" value="Сохранить" class="btn btn-primary"/>
+    </form>
+{% endblock %}

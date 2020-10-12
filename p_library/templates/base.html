@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <title>{% block title %}{% endblock %}</title>
+    </head>
+    <body>
+        <div class="container bg-light">
+            <div class="row">
+                <div class="col-md-8">
+                    {% load socialaccount %}
+                    {% if user.is_authenticated %}
+                        <h3>{{ user.username }}</h3>
+                        <a href={% url 'account_logout' %}>Выйти</a>                        
+                    {% else %}
+                        <p>Анонимные пользователи могут только просматривать материал, пожалейста, войдите.</p>
+                        <a href={% url 'account_login' %}>Войти</a>
+                    {% endif %}
+                    <br>
+                    {% block content %}
+                    {% endblock %}
+                    {% url 'all_links' as all %}
+                    {% if not all == request.path %}
+                        <a href="{{ all }}" class="nav-link active text-info">Обратно ко всем ссылкам</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

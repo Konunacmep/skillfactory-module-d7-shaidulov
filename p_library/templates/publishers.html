@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Издательства
+{% endblock %}
+{% block content %}
+    <h2>Список книг с издательствами</h2>
+    {% if publishers %}
+        {% for publisher in publishers %}
+            <ul>
+                <li>{{ publisher }}
+                    <ul>
+                        {% for book in books %}
+                            {% if publisher == book.publisher.name %}
+                                <li>Автор:
+                                    {% for author in book.authors.all %}
+                                        {{ author.full_name }}
+                                            {% if forloop.counter != book.authors.all|length %}
+                                                ,
+                                            {% endif %}
+                                    {% endfor %}
+                                , Название: {{ book.title }}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </li>
+            </ul>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

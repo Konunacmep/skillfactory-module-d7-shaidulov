@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Должники
+{% endblock %}
+{% block content %}
+    <h2>Список задолжавших друзей</h2>
+    {% if friends %}
+    {% load socialaccount %}
+        {% for friend in friends %}
+            <h3>{{ forloop.counter }}. {{ friend }}</h3>
+                {% if user.is_authenticated %}
+                    {% url 'p_library:friend_update' friend.id  as fr_edit %}
+                    <a href="{{ fr_edit }}" class="btn btn-primary" style="width: 10%; margin: 1px;">Edit</a>
+                    <form action="/editing/friend/delete/" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" name="id" value="{{friend.id}}" />
+                        <input type="submit" value="Del" class="btn btn-primary" style="width: 10%; margin: 1px;"/>
+                    </form>
+                {% endif %}
+            <table class="table table-striped" style="width: 50%">
+                {% if friend.books %}
+                    {% for book in friend.books.all %}
+                        <tr>
+                            <td style="width: 50%">
+                                {% for author in book.authors.all %}
+                                    {{ author.full_name }}
+                                        {% if forloop.counter != book.authors.all|length %}
+                                            ,
+                                        {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td style="width: 40%">
+                                {{ book.title }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </table>
+        {% endfor %}
+    {% endif %}
+    {% url 'p_library:friend_create' as fr_create %}
+    <a href="{{ fr_create }}" class="btn btn-primary" style="width: 15%; margin: 1px;">Add friend</a>
+{% endblock %}

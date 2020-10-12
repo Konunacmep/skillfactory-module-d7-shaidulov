@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Список ссылок
+{% endblock %}
+{% block content %}
+    {% load socialaccount %}
+    <h2>Список ссылок</h2>
+    {% if user.is_authenticated %}
+        <p>Зарегистрированные пользователи могут просматривать и редактировать материал</p>
+    {% else %}
+        <p>Незарегистрированные пользователи могут только просматривать материал</p>
+    {% endif %}
+    <a href={% url 'main_page' %}>Index</a><br>
+    <a href={% url 'p_library:authors_list' %}>Все авторы</a><br>
+    {% if user.is_authenticated %}
+        <a href={% url 'p_library:author_create' %}>Добавить автора</a><br>
+        <a href={% url 'p_library:author_create_many' %}>Добавить несколько авторов</a><br>
+        <a href={% url 'p_library:author_book_create_many' %}>Добавтиь несколько авторов и книг</a><br>
+        <a href={% url 'publisher_create' %}>Добавить издательство</a><br>
+        <a href={% url 'p_library:friend_create' %}>Добавить друга</a><br>
+    {% endif %}
+    <a href={% url 'publishers' %}>Издательства и их книги</a><br>
+    <a href={% url 'p_library:friend_list' %}>Список друзей, задолжавших книги</a><br>
+{% endblock %}

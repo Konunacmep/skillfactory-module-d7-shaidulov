@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Все авторы
+{% endblock %}
+{% block content %}
+{% load socialaccount %}
+	<ul>
+		{% for author in object_list %}
+		    <li>{{ author.full_name }}
+				{% if user.is_authenticated %}
+					<form action="/editing/author/delete/" method="post" enctype="multipart/form-data">
+						{% csrf_token %}
+						<input type="hidden" name="id" value="{{author.id}}" />
+						<input type="submit" value="Del" class="btn btn-primary"/>
+					</form>
+				{% endif %}
+			</li>
+		{% endfor %}
+	</ul>
+{% endblock %}

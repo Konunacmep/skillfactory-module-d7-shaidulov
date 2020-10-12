@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Добавление друга-должника
+{% endblock %}
+{% block content %}
+	<form method="post">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<input type="submit" value="Сохранить" class="btn btn-primary" style="margin: 1px;">
+	</form>
+	<p>Используйте ctrl, чтобы выделить несколько книг</p>
+{% endblock %}
